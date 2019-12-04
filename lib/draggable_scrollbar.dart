@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 /// Build the Scroll Thumb and label using the current configuration
 typedef Widget ScrollThumbBuilder(
   Color backgroundColor,
+  Color foregroundColor,
   Animation<double> thumbAnimation,
   Animation<double> labelAnimation,
   double height, {
@@ -30,6 +31,9 @@ class DraggableScrollbar extends StatefulWidget {
 
   /// The background color of the label and thumb
   final Color backgroundColor;
+
+  /// The foreground color of the label and thumb
+  final Color foregroundColor;
 
   /// The amount of padding that should surround the thumb
   final EdgeInsetsGeometry padding;
@@ -57,6 +61,7 @@ class DraggableScrollbar extends StatefulWidget {
     this.alwaysVisibleScrollThumb = false,
     @required this.heightScrollThumb,
     @required this.backgroundColor,
+    @required this.foregroundColor,
     @required this.scrollThumbBuilder,
     @required this.child,
     @required this.controller,
@@ -78,6 +83,7 @@ class DraggableScrollbar extends StatefulWidget {
     @required this.controller,
     this.heightScrollThumb = 48.0,
     this.backgroundColor = Colors.white,
+    this.foregroundColor = Colors.grey,
     this.padding,
     this.scrollbarAnimationDuration = const Duration(milliseconds: 300),
     this.scrollbarTimeToFade = const Duration(milliseconds: 600),
@@ -96,6 +102,7 @@ class DraggableScrollbar extends StatefulWidget {
     @required this.controller,
     this.heightScrollThumb = 48.0,
     this.backgroundColor = Colors.white,
+    this.foregroundColor = Colors.grey,
     this.padding,
     this.scrollbarAnimationDuration = const Duration(milliseconds: 300),
     this.scrollbarTimeToFade = const Duration(milliseconds: 600),
@@ -114,6 +121,7 @@ class DraggableScrollbar extends StatefulWidget {
     @required this.controller,
     this.heightScrollThumb = 48.0,
     this.backgroundColor = Colors.white,
+    this.foregroundColor = Colors.grey,
     this.padding,
     this.scrollbarAnimationDuration = const Duration(milliseconds: 300),
     this.scrollbarTimeToFade = const Duration(milliseconds: 600),
@@ -130,6 +138,7 @@ class DraggableScrollbar extends StatefulWidget {
   static buildScrollThumbAndLabel(
       {@required Widget scrollThumb,
       @required Color backgroundColor,
+      @required Color foregroundColor,
       @required Animation<double> thumbAnimation,
       @required Animation<double> labelAnimation,
       @required Text labelText,
@@ -145,6 +154,7 @@ class DraggableScrollbar extends StatefulWidget {
                 animation: labelAnimation,
                 child: labelText,
                 backgroundColor: backgroundColor,
+                foregroundColor: foregroundColor,
                 constraints: labelConstraints,
               ),
               scrollThumb,
@@ -164,6 +174,7 @@ class DraggableScrollbar extends StatefulWidget {
       double width, Key scrollThumbKey, bool alwaysVisibleScrollThumb) {
     return (
       Color backgroundColor,
+      Color foregroundColor,
       Animation<double> thumbAnimation,
       Animation<double> labelAnimation,
       double height, {
@@ -172,7 +183,8 @@ class DraggableScrollbar extends StatefulWidget {
     }) {
       final scrollThumb = CustomPaint(
         key: scrollThumbKey,
-        foregroundPainter: ArrowCustomPainter(Colors.grey),
+        foregroundPainter: ArrowCustomPainter(foregroundColor),
+        // TODO: Change something here!
         child: Material(
           elevation: 4.0,
           child: Container(
@@ -191,6 +203,7 @@ class DraggableScrollbar extends StatefulWidget {
       return buildScrollThumbAndLabel(
         scrollThumb: scrollThumb,
         backgroundColor: backgroundColor,
+        foregroundColor: foregroundColor,
         thumbAnimation: thumbAnimation,
         labelAnimation: labelAnimation,
         labelText: labelText,
@@ -204,6 +217,7 @@ class DraggableScrollbar extends StatefulWidget {
       Key scrollThumbKey, bool alwaysVisibleScrollThumb) {
     return (
       Color backgroundColor,
+      Color foregroundColor,
       Animation<double> thumbAnimation,
       Animation<double> labelAnimation,
       double height, {
@@ -227,6 +241,7 @@ class DraggableScrollbar extends StatefulWidget {
       return buildScrollThumbAndLabel(
         scrollThumb: scrollThumb,
         backgroundColor: backgroundColor,
+        foregroundColor: foregroundColor,
         thumbAnimation: thumbAnimation,
         labelAnimation: labelAnimation,
         labelText: labelText,
@@ -240,6 +255,7 @@ class DraggableScrollbar extends StatefulWidget {
       Key scrollThumbKey, bool alwaysVisibleScrollThumb) {
     return (
       Color backgroundColor,
+      Color foregroundColor,
       Animation<double> thumbAnimation,
       Animation<double> labelAnimation,
       double height, {
@@ -254,12 +270,13 @@ class DraggableScrollbar extends StatefulWidget {
           ),
         ),
         color: backgroundColor,
-        borderRadius: BorderRadius.all(Radius.circular(7.0)),
+        borderRadius: BorderRadius.all(Radius.circular(5.0)),
       );
 
       return buildScrollThumbAndLabel(
         scrollThumb: scrollThumb,
         backgroundColor: backgroundColor,
+        foregroundColor: foregroundColor,
         thumbAnimation: thumbAnimation,
         labelAnimation: labelAnimation,
         labelText: labelText,
@@ -273,6 +290,7 @@ class DraggableScrollbar extends StatefulWidget {
 class ScrollLabel extends StatelessWidget {
   final Animation<double> animation;
   final Color backgroundColor;
+  final Color foregroundColor;
   final Text child;
 
   final BoxConstraints constraints;
@@ -284,6 +302,7 @@ class ScrollLabel extends StatelessWidget {
     @required this.child,
     @required this.animation,
     @required this.backgroundColor,
+    @required this.foregroundColor,
     this.constraints = _defaultConstraints,
   }) : super(key: key);
 
@@ -397,6 +416,7 @@ class _DraggableScrollbarState extends State<DraggableScrollbar>
                 padding: widget.padding,
                 child: widget.scrollThumbBuilder(
                   widget.backgroundColor,
+                  widget.foregroundColor,
                   _thumbAnimation,
                   _labelAnimation,
                   widget.heightScrollThumb,
